@@ -7,6 +7,7 @@ type ContactsListProps = {
   onContactClick: (contact: Contact) => void;
   onBack: () => void;
   onAddNewChat: () => void;
+  selectedContact: Contact | null;
 };
 
 const contacts: Contact[] = [
@@ -49,9 +50,9 @@ const contacts: Contact[] = [
   },
 ];
 
-const ContactsList = ({ conversation, onContactClick, onBack, onAddNewChat }: ContactsListProps) => {
+const ContactsList = ({ conversation, onContactClick, onBack, onAddNewChat, selectedContact }: ContactsListProps) => {
   return (
-    <div className="w-full max-w-5xl mx-auto p-8">
+    <div className="w-[600px] border-r border-border p-8 overflow-y-auto flex-shrink-0">
       <div className="flex items-center justify-between mb-8">
         <div className="flex items-center gap-4">
           <button
@@ -76,12 +77,18 @@ const ContactsList = ({ conversation, onContactClick, onBack, onAddNewChat }: Co
       </div>
 
       <div className="space-y-2">
-        {contacts.map((contact) => (
-          <button
-            key={contact.id}
-            onClick={() => onContactClick(contact)}
-            className="w-full flex items-center gap-4 p-4 hover:bg-muted/50 rounded-2xl transition-all group"
-          >
+        {contacts.map((contact) => {
+          const isSelected = selectedContact?.id === contact.id;
+          return (
+            <button
+              key={contact.id}
+              onClick={() => onContactClick(contact)}
+              className={`w-full flex items-center gap-4 p-4 rounded-2xl transition-all group ${
+                isSelected 
+                  ? "bg-[hsl(var(--primary))]/10 border-l-4 border-[hsl(var(--primary))]" 
+                  : "hover:bg-muted/50"
+              }`}
+            >
             <div className="relative">
               {contact.isGroup ? (
                 <div className="w-12 h-12 rounded-full bg-muted flex items-center justify-center">
@@ -112,16 +119,19 @@ const ContactsList = ({ conversation, onContactClick, onBack, onAddNewChat }: Co
               <div className="w-2 h-2 rounded-full bg-[hsl(var(--status-proctoring))]"></div>
             )}
           </button>
-        ))}
+        );
+        })}
       </div>
 
-      <div className="mt-16 flex flex-col items-center justify-center text-center py-12">
-        <div className="w-32 h-32 rounded-full bg-gradient-to-br from-[hsl(var(--primary))]/20 to-[hsl(var(--avatar-purple))]/20 flex items-center justify-center mb-6">
-          <div className="text-6xl">💬</div>
+      {!selectedContact && (
+        <div className="mt-16 flex flex-col items-center justify-center text-center py-12">
+          <div className="w-32 h-32 rounded-full bg-gradient-to-br from-[hsl(var(--primary))]/20 to-[hsl(var(--avatar-purple))]/20 flex items-center justify-center mb-6">
+            <div className="text-6xl">💬</div>
+          </div>
+          <p className="text-lg font-medium text-foreground mb-2">Click contact person to chat</p>
+          <p className="text-muted-foreground">Nothing is selected</p>
         </div>
-        <p className="text-lg font-medium text-foreground mb-2">Click contact person to chat</p>
-        <p className="text-muted-foreground">Nothing is selected</p>
-      </div>
+      )}
     </div>
   );
 };

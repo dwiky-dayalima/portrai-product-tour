@@ -62,19 +62,22 @@ const Chat = () => {
           <main className="flex-1 flex overflow-hidden">
             {!selectedConversation ? (
               <ConversationsList onConversationClick={handleConversationClick} />
-            ) : !selectedContact ? (
-              <ContactsList
-                conversation={selectedConversation}
-                onContactClick={handleContactClick}
-                onBack={handleBackToConversations}
-                onAddNewChat={handleAddNewChat}
-              />
             ) : (
-              <ChatInterface
-                conversation={selectedConversation}
-                contact={selectedContact}
-                onBack={handleBackToContacts}
-              />
+              <>
+                <ContactsList
+                  conversation={selectedConversation}
+                  onContactClick={handleContactClick}
+                  onBack={handleBackToConversations}
+                  onAddNewChat={handleAddNewChat}
+                  selectedContact={selectedContact}
+                />
+                {selectedContact && (
+                  <ChatInterface
+                    conversation={selectedConversation}
+                    contact={selectedContact}
+                  />
+                )}
+              </>
             )}
           </main>
 

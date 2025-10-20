@@ -7,7 +7,6 @@ import { Conversation, Contact } from "@/pages/Chat";
 type ChatInterfaceProps = {
   conversation: Conversation;
   contact: Contact;
-  onBack: () => void;
 };
 
 type Message = {
@@ -58,36 +57,13 @@ const messages: Message[] = [
   },
 ];
 
-const ChatInterface = ({ conversation, contact, onBack }: ChatInterfaceProps) => {
+const ChatInterface = ({ conversation, contact }: ChatInterfaceProps) => {
   const [messageInput, setMessageInput] = useState("");
 
   return (
-    <div className="w-full flex flex-col h-full">
-      {/* Header */}
-      <div className="px-8 py-6 border-b border-border">
-        <div className="flex items-center justify-between mb-4">
-          <div className="flex items-center gap-4">
-            <button
-              onClick={onBack}
-              className="w-10 h-10 rounded-xl hover:bg-muted flex items-center justify-center transition-colors"
-            >
-              <ChevronLeft className="w-5 h-5" />
-            </button>
-            <h1 className="text-3xl font-bold">Chat</h1>
-          </div>
-          <Button className="bg-[hsl(var(--sidebar-dark))] hover:bg-[hsl(var(--sidebar-dark))]/90 text-white">
-            Add New Chat
-          </Button>
-        </div>
-
-        <div className="px-6 py-4 bg-[hsl(var(--sidebar-dark))] rounded-2xl flex items-center gap-3">
-          <Hash className="w-5 h-5 text-white" />
-          <span className="text-white font-medium">{conversation.name}</span>
-        </div>
-      </div>
-
-      {/* Contact Info */}
-      <div className="px-8 py-4 border-b border-border flex items-center gap-3">
+    <div className="flex-1 flex flex-col h-full bg-background">
+      {/* Contact Info Header */}
+      <div className="px-8 py-6 border-b border-border flex items-center gap-3">
         <div className="relative">
           <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[hsl(var(--primary))] to-[hsl(var(--avatar-purple))] flex items-center justify-center text-white text-sm font-bold">
             {contact.avatar}
